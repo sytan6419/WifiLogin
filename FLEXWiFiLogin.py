@@ -5,25 +5,50 @@ from datetime import *
 import tkMessageBox
 from Tkinter import *
 import subprocess
-import  os
+import os
 
 
 top = Tkinter.Tk()
-top.minsize(width=300, height=100)
+top.minsize(width=420, height=170)
 top.wm_title("Flex WiFi Login")
-Label(top, text="Login to Flex WiFi!!!").grid(row=0)
-Label(top, text="*** CHROME ONLY ***").grid(row=1)
-Label(top, text="Please save your username and password for first time only!!!").grid(row=2)
-Label(top, text='Username: ').grid(row=3,column=0)
-UE = Tkinter.Entry(top, bd =5)
-UE.grid(row=3,column=1)
-Label(top, text="Password:").grid(row=4,column=0)
-PE = Tkinter.Entry(top, bd =5)
-PE.grid(row=4,column=1)                        
-Label(top, text="Expiry(yyyy-mm-dd):").grid(row=5,column=0)
-DE = Tkinter.Entry(top, bd =5)
-DE.grid(row=5,column=1)
+#main window
+main_panel_window = PanedWindow()
+main_panel_window.pack(fill=BOTH,expand =1)
+#top_panel
+top_main_panel = PanedWindow()
+top_main_panel.pack(fill=BOTH,expand =1)
+main_panel_window.add(top_main_panel)
+top_main_panel.place(bordermode = INSIDE, x = 40)
+#bottom_panel
+bottom_main_panel = PanedWindow()
+bottom_main_panel.pack(fill=BOTH,expand =1)
+main_panel_window.add(bottom_main_panel)
+bottom_main_panel.place(bordermode = INSIDE,x=50,y=50)
+#inf_panel
+top_panel_window = PanedWindow()
+top_panel_window.pack(fill=BOTH,expand =1)
+Label(top_panel_window, text="Welcome to FLEX Visitor WiFi Login").grid(row=1)
+Label(top_panel_window, text="*** FOR CHROME ONLY ***").grid(row=2)
+Label(top_panel_window, text="Please save your username and password for first time only!!!").grid(row=3)
+top_main_panel.add(top_panel_window)
+#label_panel
+left_mid_panel_window = PanedWindow(orient=VERTICAL)
+left_mid_panel_window.pack(fill=BOTH,expand =1)
+Label(left_mid_panel_window, text='Username: ',bd=5).pack()
+Label(left_mid_panel_window, text="Password:",bd=5).pack()
+Label(left_mid_panel_window, text="Expiry(format:yyyy-mm-dd):",bd=5).pack()
+bottom_main_panel.add(left_mid_panel_window)
+#entry_panel
+right_mid_panel_window = PanedWindow()
+right_mid_panel_window.pack(fill=BOTH,expand =1)
+UE = Tkinter.Entry(right_mid_panel_window, bd =5)
+PE = Tkinter.Entry(right_mid_panel_window, bd =5,show='*')               
+DE = Tkinter.Entry(right_mid_panel_window, bd =5)
+UE.pack()
+PE.pack()
+DE.pack()
 
+bottom_main_panel.add(right_mid_panel_window)
 
 def login_web():
     try:
@@ -97,10 +122,14 @@ def open_vpn():
     cmd = [r"C:\Program Files (x86)\Cisco\Cisco AnyConnect Secure Mobility Client\vpnui.exe", "param1", "param2"]
     abc = subprocess.call(cmd)
 
-Button(top, text= 'Login', command = login_web).grid(row=6,column=0)
-Button(top, text= 'Logout', command = logout_web).grid(row=6,column=1)
-Button(top, text= 'Register', command = register_ID).grid(row=6,column=2)
-Button(top, text= 'VPN on', command = open_vpn).grid(row=6,column=3)
+#button_panel
+bottom_panel = PanedWindow()
+bottom_panel.pack(fill=BOTH,expand =1)
+Button(bottom_panel, text= 'Login', command = login_web).pack()
+Button(bottom_panel, text= 'Logout', command = logout_web).pack()
+Button(bottom_panel, text= 'Register', command = register_ID).pack()
+Button(bottom_panel, text= 'VPN on', command = open_vpn).pack()
+bottom_main_panel.add(bottom_panel)
 top.mainloop()
 
 
