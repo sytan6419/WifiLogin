@@ -27,9 +27,8 @@ bottom_main_panel.place(bordermode = INSIDE,x=50,y=50)
 #inf_panel
 top_panel_window = PanedWindow()
 top_panel_window.pack(fill=BOTH,expand =1)
-Label(top_panel_window, text="Welcome to FLEX Visitor WiFi Login").grid(row=1)
-Label(top_panel_window, text="*** FOR CHROME ONLY ***").grid(row=2)
-Label(top_panel_window, text="Please save your username and password for first time only!!!").grid(row=3)
+Label(top_panel_window, text="*** CHROME ONLY ***").grid(row=1)
+Label(top_panel_window, text="Please save your username and password for first time only!!!").grid(row=2)
 top_main_panel.add(top_panel_window)
 #label_panel
 left_mid_panel_window = PanedWindow(orient=VERTICAL)
@@ -47,8 +46,10 @@ DE = Tkinter.Entry(right_mid_panel_window, bd =5)
 UE.pack()
 PE.pack()
 DE.pack()
-
 bottom_main_panel.add(right_mid_panel_window)
+
+#initial login flag
+login_pass = 0
 
 def login_web():
     try:
@@ -64,10 +65,10 @@ def login_web():
             future_year = int(info.split('|')[2].split('-')[0])
             future_month = int(info.split('|')[2].split('-')[1])
             future_day = int(info.split('|')[2].split('-')[2])
-                    
+                        
             future = date(future_year,future_month,future_day)
             diff = future - today
-            
+                
             browser.find_element_by_name('username').send_keys(username)
             browser.find_element_by_name('password').send_keys(password)
             browser.find_element_by_name('Submit').click()
@@ -91,8 +92,8 @@ def login_web():
         tkMessageBox.showerror('Error connected to wifi!','Are you connected to flex wifi?')
     except:
         browser.quit()
-        tkMessageBox.showerror("Startup failed","got problem?")
-        
+        tkMessageBox.showerror("Startup failed","got problem? Or password expired?")
+
         
 def logout_web():
     browser = webdriver.Chrome()
@@ -131,5 +132,3 @@ Button(bottom_panel, text= 'Register', command = register_ID).pack()
 Button(bottom_panel, text= 'VPN on', command = open_vpn).pack()
 bottom_main_panel.add(bottom_panel)
 top.mainloop()
-
-
